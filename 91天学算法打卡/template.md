@@ -2,9 +2,10 @@
 
 [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
 
-【思路——双指针】
+【思路1——双指针】
 
-XXX
+
+【C++代码】
 
 ```c++
 XXX
