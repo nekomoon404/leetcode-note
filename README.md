@@ -1,2 +1,2 @@
 # leetcode-note
-做题笔记
+做题记录
