@@ -1,0 +1,98 @@
+/**
+ * Definition for singly-linked list.
+ */
+#include <vector>
+#include <sstream>
+ 
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+
+std::string to_string(ListNode* head) {
+  std::ostringstream oss;
+  oss << "[";
+  ListNode* curr = head;
+  while (curr) {
+    oss << curr->val;
+    if (curr->next) oss << ", ";
+    curr = curr->next;
+  }
+  oss << "]" << std::endl;
+  return oss.str();
+}
+
+// RAII封装一个链表类
+class LinkedList {
+  private:
+    ListNode* head;
+  public:
+    LinkedList() : head(nullptr) {}
+    
+    explicit LinkedList(const std::vector<int>& nums) : head(nullptr) {
+      if (nums.empty()) return;
+
+      head = new ListNode(nums[0]);
+      ListNode* curr = head;
+
+      for (size_t i = 1; i < nums.size(); ++i) {
+        curr->next = new ListNode(nums[i]);
+        curr = curr->next;
+      }
+    }
+
+    // 禁止拷贝构造和拷贝赋值，避免浅拷贝
+    LinkedList(const LinkedList&) = delete;
+    LinkedList& operator=(const LinkedList&) = delete;
+
+    // 支持移动语义
+    LinkedList(LinkedList&& other) noexcept : head(other.head) {
+      other.head = nullptr;
+    }
+
+    LinkedList& operator=(LinkedList&& other) noexcept {
+      if (this != &other) {
+        freeLinkedList();
+        head = other.head;
+        other.head = nullptr;
+      }
+      return *this;
+    }
+
+    ~LinkedList() {
+      freeLinkedList();
+    }
+
+    const ListNode* getHead() const { return head; }
+    ListNode* getHead() { return head; }
+
+    std::string to_string() const {
+      std::ostringstream oss;
+      oss << "[";
+      ListNode* curr = head;
+      while (curr) {
+        oss << curr->val;
+        if (curr->next) oss << ", ";
+        curr = curr->next;
+      }
+      oss << "]" << std::endl;
+      return oss.str();
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const LinkedList& list) {
+      os << list.to_string();
+      return os;
+    }
+
+  private:
+    void freeLinkedList() {
+      while (head != nullptr) {
+        ListNode* tmp = head;
+        head = head->next;
+        delete tmp;
+      }
+    }
+};
