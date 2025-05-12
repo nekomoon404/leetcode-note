@@ -69,6 +69,9 @@ class LinkedList {
     const ListNode* getHead() const { return head; }
     ListNode* getHead() { return head; }
 
+    // for: 一些返回值是头结点的题目, 避免double free, 比如lc19
+    void setHead(ListNode* _head) { head = _head; }
+
     std::string to_string() const {
       std::ostringstream oss;
       oss << "[";
