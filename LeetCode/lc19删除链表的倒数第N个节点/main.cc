@@ -12,6 +12,7 @@ ListNode* removeNthFromEnd2(ListNode* head, int n) {
     end = end->next;
   }
 
+  // 倒数第n个节点是头节点的情况
   if (end == nullptr) {
     head = pre->next;
     delete pre;
