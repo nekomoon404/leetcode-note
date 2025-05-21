@@ -19,7 +19,7 @@ string reverseWords2(string s) {
       st_idx++;
     } else {
       ed_idx = st_idx;
-      while (ed_idx < s.size() && s[ed_idx]) {
+      while (ed_idx < s.size() && s[ed_idx] != ' ') {
         ed_idx++;
       }
       // reverseString(s, st_idx, ed_idx - 1);
@@ -54,7 +54,7 @@ string reverseWords(string s) {
       new_idx = new_ed;
     }
   }
-  if (new_idx) new_idx--;
+  if (new_idx) new_idx--; // 去掉最后一个单词末尾多加的空格
   s.erase(s.begin() + new_idx, s.end());
   std::reverse(s.begin(), s.end());
   return s;
