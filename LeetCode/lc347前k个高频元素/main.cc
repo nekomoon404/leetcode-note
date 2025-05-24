@@ -1,33 +1,44 @@
 #include <iostream>
 #include <map>
+#include <queue>
 #include "../vector_print.h"
 
-std::vector<int> topKFrequent(std::vector<int>& nums, int k) {
-  std::sort(nums.begin(), nums.end());
-  std::multimap<int, int> cnt_val_map;
+using ValCntPair = std::pair<int, int>;
 
-  int last_val = *nums.begin();
-  int count = 0;
+struct CountCmp {
+  bool operator()(const ValCntPair& left, const ValCntPair& right) {
+    return left.second > right.second;
+  }
+};
+
+// 借助小顶堆(优先级队列)找出前k大的数, 小顶堆每次弹出最小的数
+std::vector<int> topKFrequent(std::vector<int>& nums, int k) {
+  std::unordered_map<int, int> val_cnt_map;
   for (int val : nums) {
-    if (val == last_val) {
-      count++;
-    } else {
-      cnt_val_map.emplace(count, last_val);
-      last_val = val;
-      count = 1;
+    val_cnt_map[val]++;
+  }
+
+  // 利用优先级队列定义小顶堆, 对频率排序
+  std::priority_queue<ValCntPair, std::vector<ValCntPair>, CountCmp> pri_que;
+
+  for (const auto& iter : val_cnt_map) {
+    pri_que.emplace(iter.first, iter.second);
+    if (pri_que.size() > k) {
+      pri_que.pop();
     }
   }
-  cnt_val_map.emplace(count, last_val);
 
-  std::vector<int> res;
-
-  for (auto iter = cnt_val_map.rbegin(); iter != cnt_val_map.rend() && k > 0; iter++, k--) {
-    res.push_back(iter->second);
+  // 按照频率从高到低将数据保存到res中
+  std::vector<int> res(k);
+  while (k--) {
+    res[k] = pri_que.top().first;
+    pri_que.pop();
   }
 
   return res;
 }
-// 时间复杂度: O(n * log n)
+// 时间复杂度: O(n * log k)
+// 空间复杂度: O(n)
 
 int main() {
   {
