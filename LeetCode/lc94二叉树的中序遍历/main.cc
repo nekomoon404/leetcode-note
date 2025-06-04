@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stack>
 #include "../tree_node.h"
 #include "../vector_print.h"
 
@@ -10,9 +11,31 @@ void traversal(TreeNode* cur, std::vector<int>& vec) {
   traversal(cur->right, vec);
 }
 
-std::vector<int> inorderTraversal(TreeNode* root) {
+std::vector<int> inorderTraversal2(TreeNode* root) {
   std::vector<int> res;
   traversal(root, res);
+  return res;
+}
+
+std::vector<int> inorderTraversal(TreeNode* root) {
+  std::vector<int> res;
+  if (root == nullptr) return res;
+
+  std::stack<TreeNode*> st;
+  TreeNode* cur = root;
+
+  while (cur || !st.empty()) {
+    if (cur) {
+      st.push(cur);
+      cur = cur->left;  // 左
+    } else {
+      cur = st.top();
+      st.pop();
+      res.push_back(cur->val); // 中
+      cur = cur->right; // 右
+    }
+  }
+
   return res;
 }
 

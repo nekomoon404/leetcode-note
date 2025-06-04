@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stack>
 #include "../tree_node.h"
 #include "../vector_print.h"
 
@@ -10,9 +11,30 @@ void traversal(TreeNode* cur, std::vector<int>& vec) {
   vec.push_back(cur->val);
 }
 
-std::vector<int> postorderTraversal(TreeNode* root) {
+std::vector<int> postorderTraversal2(TreeNode* root) {
   std::vector<int> res;
   traversal(root, res);
+  return res;
+}
+
+std::vector<int> postorderTraversal(TreeNode* root) {
+  std::vector<int> res;
+  if (root == nullptr) return res;
+
+  std::stack<TreeNode*> st;
+  st.push(root);
+
+  while (!st.empty()) {
+    TreeNode* cur = st.top();
+    st.pop();
+    res.push_back(cur->val);
+    
+    // 先左子节点入栈，res顺序为中右左
+    if (cur->left) st.push(cur->left);
+    if (cur->right) st.push(cur->right);
+  } 
+  // 反转，res顺序为左右中
+  std::reverse(res.begin(), res.end());
   return res;
 }
 
