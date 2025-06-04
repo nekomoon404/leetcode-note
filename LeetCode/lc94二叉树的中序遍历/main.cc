@@ -17,7 +17,7 @@ std::vector<int> inorderTraversal2(TreeNode* root) {
   return res;
 }
 
-std::vector<int> inorderTraversal(TreeNode* root) {
+std::vector<int> inorderTraversal3(TreeNode* root) {
   std::vector<int> res;
   if (root == nullptr) return res;
 
@@ -36,6 +36,34 @@ std::vector<int> inorderTraversal(TreeNode* root) {
     }
   }
 
+  return res;
+}
+
+// 迭代写法--空节点标记法
+std::vector<int> inorderTraversal(TreeNode* root) {
+  std::vector<int> res;
+  if (root == nullptr) return res;
+
+  std::stack<TreeNode*> st;
+  st.push(root);
+
+  while (!st.empty()) {
+    TreeNode* cur = st.top();
+    if (cur != nullptr) {
+      st.pop();
+      if (cur->right) st.push(cur->right); // 右
+
+      st.push(cur);
+      st.push(nullptr); // 中
+
+      if (cur->left) st.push(cur->left); // 左
+    } else {
+      st.pop();
+      cur = st.top();
+      st.pop();
+      res.push_back(cur->val);
+    }
+  }
   return res;
 }
 

@@ -17,7 +17,7 @@ std::vector<int> postorderTraversal2(TreeNode* root) {
   return res;
 }
 
-std::vector<int> postorderTraversal(TreeNode* root) {
+std::vector<int> postorderTraversal3(TreeNode* root) {
   std::vector<int> res;
   if (root == nullptr) return res;
 
@@ -28,13 +28,38 @@ std::vector<int> postorderTraversal(TreeNode* root) {
     TreeNode* cur = st.top();
     st.pop();
     res.push_back(cur->val);
-    
+
     // 先左子节点入栈，res顺序为中右左
     if (cur->left) st.push(cur->left);
     if (cur->right) st.push(cur->right);
-  } 
+  }
   // 反转，res顺序为左右中
   std::reverse(res.begin(), res.end());
+  return res;
+}
+
+std::vector<int> postorderTraversal(TreeNode* root) {
+  std::vector<int> res;
+  if (root == nullptr) return res;
+
+  std::stack<TreeNode*> st;
+  st.push(root);
+
+  while (!st.empty()) {
+    TreeNode* cur = st.top();
+    if (cur != nullptr) {
+      // st.pop();
+      // st.push(cur);
+      st.push(nullptr); // 中
+      if (cur->right) st.push(cur->right); // 右
+      if (cur->left) st.push(cur->left); // 左
+    } else {
+      st.pop();
+      cur = st.top();
+      st.pop();
+      res.push_back(cur->val);
+    }
+  }
   return res;
 }
 
