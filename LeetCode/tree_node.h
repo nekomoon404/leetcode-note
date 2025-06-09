@@ -2,6 +2,7 @@
 #include <memory>
 #include <queue>
 #include <vector>
+#include <sstream>
 
 struct TreeNode {
   int val;
@@ -62,3 +63,47 @@ class BinaryTree {
  private:
   TreeNode* root_;
 };
+
+std::vector<int> to_array(TreeNode* root) {
+  std::vector<int> result;
+  if (!root) return result;
+
+  std::queue<TreeNode*> que;
+  que.push(root);
+
+  while (!que.empty()) {
+    TreeNode* node = que.front();
+    que.pop();
+
+    if (node) {
+      result.push_back(node->val);
+      que.push(node->left);
+      que.push(node->right);
+    } else {
+      result.push_back(-1);  // 用 -1 表示 null
+    }
+  }
+
+  // 移除末尾连续的 null
+  while (!result.empty() && result.back() == -1) {
+    result.pop_back();
+  }
+
+  return result;
+}
+
+std::string to_string(TreeNode* root) {
+  std::vector<int> nums = to_array(root);
+  std::ostringstream oss;
+    oss << "[";
+    bool first = true;
+    for (auto num : nums) {
+        if (!first) {
+            oss << " ,";
+        }
+        oss << num;
+        first = false;
+    }
+    oss << "]";
+    return oss.str();
+}
