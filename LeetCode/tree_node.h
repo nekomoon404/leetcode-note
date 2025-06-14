@@ -20,6 +20,10 @@ class BinaryTree {
   ~BinaryTree() { releaseTree(root_); }
   TreeNode* root() const { return root_; }
 
+  TreeNode* getNode(int val) {
+    return dfs(root_, val);
+  }
+
  private:
   // 根据输入的数组形式表示的二叉树来构造TreeNode*表示的二叉树, -1表示空节点
   TreeNode* buildTree(const std::vector<int>& arr) {
@@ -60,6 +64,14 @@ class BinaryTree {
     delete root;
   }
 
+  TreeNode* dfs(TreeNode* root, int val) {
+    if (!root || root->val == val) return root;
+    TreeNode* left = dfs(root->left, val);
+    if (left) return left;
+    TreeNode* right = dfs(root->right, val);
+    if (right) return right;
+    return nullptr;
+  }
  private:
   TreeNode* root_;
 };
