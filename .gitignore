@@ -1,6 +1,7 @@
 .vscode/
 .idea/
 **/*.dSYM/
+cmake-build-debug/
 *.o
 *.a
 *.out
