@@ -52,6 +52,7 @@ void dfs2(int i, const int n, int open, std::string& path, std::vector<std::stri
 // 从选哪个的角度, path要全初始化为右括号, 枚举下一个要填左括号的位置
 // 剪枝条件: 枚举过程中要时刻保证: 1. 左括号数 open < n
 // 2. 右括号数 i - open 不能超过左括号数
+// **何时添加答案**: 左括号数 = n
 void dfs3(int i, const int n, int open, std::string& path, std::vector<std::string>& ans) {
   if (open == n) {
     ans.push_back(path);

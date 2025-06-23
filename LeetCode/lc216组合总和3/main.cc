@@ -29,7 +29,7 @@ void dfs2(int i, const int k, int target, std::vector<int>& path, std::vector<st
     ans.push_back(path);
     return;
   }
-  // 剪枝条件也可以放到判断ans push_back之前
+  // 剪枝条件也可以放到ans push_back之前
   int d = k - path.size();
   if (i < d || target < 0 || (i + i - d + 1) * d / 2 < target) return;
 
