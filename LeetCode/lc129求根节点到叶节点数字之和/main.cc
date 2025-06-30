@@ -2,7 +2,7 @@
 #include "../tree_node.h"
 
 int sum = 0;
-
+// 自顶向下递，path记录从根节点到node节点路径上的数字
 void dfs(TreeNode* root, int pathSum) {
   if (root == nullptr) return;
   pathSum = pathSum * 10 + root->val;

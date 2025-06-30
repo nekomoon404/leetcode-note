@@ -1,5 +1,6 @@
 .vscode/
 .idea/
+.obsidian/
 **/*.dSYM/
 cmake-build-debug/
 *.o
