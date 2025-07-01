@@ -3,7 +3,7 @@
 #include "../tree_node.h"
 #include "../vector_print.h"
 
-std::vector<int> rightSideView(TreeNode* root) {
+std::vector<int> rightSideView2(TreeNode* root) {
   std::vector<int> res;
   if (root == nullptr) return res;
 
@@ -24,6 +24,23 @@ std::vector<int> rightSideView(TreeNode* root) {
     res.push_back(val);
   }
   return res;
+}
+
+// 递归: 先递归右子树, 再递归左子树
+// 记录ans和递归深度, 当ans长度=递归深度时, 则把节点值加入到ans
+std::vector<int> ans;
+void dfs(TreeNode* node, int depth) {
+  if (node == nullptr) return;
+  if (ans.size() == depth) ans.push_back(node->val);
+
+  dfs(node->right, depth + 1);
+  dfs(node->left, depth + 1);
+}
+
+std::vector<int> rightSideView(TreeNode* root) {
+  ans.clear();
+  dfs(root, 0);
+  return ans;
 }
 
 int main() {

@@ -4,6 +4,7 @@
 #include <utility>
 #include "../tree_node.h"
 
+// 递归: 递归交换左右孩子
 // 前序遍历，使用后序遍历也可以
 TreeNode* invertTree(TreeNode* root) {
   if (root == nullptr) return root;

@@ -3,6 +3,7 @@
 #include <queue>
 #include <vector>
 #include <sstream>
+#include <unordered_set>
 
 struct TreeNode {
   int val;
@@ -31,26 +32,29 @@ class BinaryTree {
       return nullptr;
     }
     TreeNode* root = new TreeNode(arr[0]);
-    std::queue<TreeNode*> nodes;
-    nodes.push(root);
+    std::queue<TreeNode*> que;
+    que.push(root);
+    nodes_.insert(root);
     int idx = 1;
     int n = arr.size();
 
-    while (!nodes.empty() && idx < n) {
-      TreeNode* cur = nodes.front();
-      nodes.pop();
+    while (!que.empty() && idx < n) {
+      TreeNode* cur = que.front();
+      que.pop();
 
       // 处理左子节点
       if (idx < n && arr[idx] != -1) {
         cur->left = new TreeNode(arr[idx]);
-        nodes.push(cur->left);
+        que.push(cur->left);
+        nodes_.insert(cur->left);
       }
       idx++;
 
       // 处理右子节点
       if (idx < n && arr[idx] != -1) {
         cur->right = new TreeNode(arr[idx]);
-        nodes.push(cur->right);
+        que.push(cur->right);
+        nodes_.insert(cur->right);
       }
       idx++;
     }
@@ -58,10 +62,12 @@ class BinaryTree {
   }
   // 释放二叉树的内存
   void releaseTree(TreeNode* root) {
-    if (root == nullptr) return;
-    releaseTree(root->left);
-    releaseTree(root->right);
-    delete root;
+    // 通过集合统一释放内存
+    for (auto node : nodes_) {
+      delete node;
+    }
+    nodes_.clear();
+    root_ = nullptr;  // 防止野指针
   }
 
   TreeNode* dfs(TreeNode* root, int val) {
@@ -74,6 +80,7 @@ class BinaryTree {
   }
  private:
   TreeNode* root_;
+  std::unordered_set<TreeNode*> nodes_;  // 新增节点集合
 };
 
 std::vector<int> to_array(TreeNode* root) {

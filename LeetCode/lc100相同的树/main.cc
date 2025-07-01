@@ -7,6 +7,13 @@ bool isSameTree2(TreeNode* p, TreeNode* q) {
   return isSameTree2(p->left, q->left) && isSameTree2(p->right, q->right);
 }
 
+// 递归，简洁的写法
+bool isSameTree3(TreeNode* p, TreeNode* q) {
+  // 如果p为空或者q为空，则都是空才返回true
+  if (!p || !q) return p == q;
+  return p->val == q->val && isSameTree3(p->left, q->left) && isSameTree3(p->right, q->right);
+}
+
 bool isSameTree(TreeNode* p, TreeNode* q) {
   std::queue<TreeNode*> que;
   que.push(p);
@@ -29,7 +36,7 @@ bool isSameTree(TreeNode* p, TreeNode* q) {
   return true;
 }
 
-int main () {
+int main() {
   {
     BinaryTree tree1({1, 2, 3});
     BinaryTree tree2({1, 2, 3});

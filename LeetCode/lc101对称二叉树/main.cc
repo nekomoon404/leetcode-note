@@ -13,6 +13,19 @@ bool isSymmetric2(TreeNode* root) {
   return compare(root->left, root->right);
 }
 
+// 递归: 简洁的写法, 思路和上面一样
+// 根节点自身是轴对称的
+// 递归比较(左孩子的左子树, 右孩子的右子树), (左孩子的右子树, 右孩子的左子树)是否相同
+bool isSymmetric(TreeNode* p, TreeNode* q) {
+  if (!p || !q) return p == q;
+  return p->val == q->val && isSymmetric(p->left, q->right) && isSymmetric(p->right, q->left);
+}
+
+bool isSymmetric3(TreeNode* root) {
+  if (root == nullptr) return true; // 可以不判空, 题目节点数大于0
+  return isSymmetric(root->left, root->right);
+}
+
 // 迭代写法, 将左右子树要比较的节点成对插入/弹出队列
 bool isSymmetric(TreeNode* root) {
   if (root == nullptr) return true;
