@@ -6,7 +6,7 @@ using namespace std;
 // 状态计算：枚举最后一步操作是什么:
 // f(i-1, j) + 1, f(i, j-1) + 1, f(i-1, j-1) + a[i]==b[j]
 // 边界条件：f(0, j)=j，表示将a[0]变成b[:j]，只能用添加的方式；f(i, 0)=i同理
-int minDistance(string word1, string word2) {
+int minDistance2(string word1, string word2) {
   int n = word1.size(), m = word2.size();
   vector<vector<int>> f(n + 1, vector<int>(m + 1, INT_MAX / 2));
   for (int i = 0; i <= n; ++i) f[i][0] = i;
@@ -19,6 +19,25 @@ int minDistance(string word1, string word2) {
     }
   }
   return f[n][m];
+}
+
+// 空间优化，要保存第i-1层的f[j-1]
+int minDistance(string word1, string word2) {
+  int n = word1.size(), m = word2.size();
+  vector<int> f(m + 1, INT_MAX / 2);
+  for (int j = 0; j <= m; ++j) f[j] = j;
+
+  for (int i = 1; i <= n; ++i) {
+    int pre = f[0]; // 第i-1层的
+    f[0] = i; // 第i层 f(i, 0) = i
+    for (int j = 1; j <= m; ++j) {
+      int tmp = f[j];
+      f[j] = min(f[j] + 1, f[j - 1] + 1);
+      f[j] = min(f[j], pre + (word1[i - 1] == word2[j - 1] ? 0 : 1));
+      pre = tmp;
+    }
+  }
+  return f[m];
 }
 
 int main() {
