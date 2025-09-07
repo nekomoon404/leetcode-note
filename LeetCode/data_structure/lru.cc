@@ -29,7 +29,7 @@ class LRUCache {
   void push_front(Node* x) {
     x->prev = dummy;
     x->next = dummy->next;
-    dummy->next->prev = x;
+    dummy->next->prev = x; // 一开始dummy是自环，所以这里会更新dummy->pre = 尾节点
     dummy->next = x;
   }
 

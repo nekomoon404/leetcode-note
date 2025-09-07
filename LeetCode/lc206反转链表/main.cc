@@ -1,6 +1,8 @@
 #include "../list_node.h"
 #include<iostream>
 
+// 反转结束后，从原来的链表上看：pre指向反转这一段的末尾；
+// cur指向反转这一段后续的下一个节点
 ListNode* reverseList(ListNode* head) {
   ListNode* tmp = nullptr;
   ListNode* cur = head;
