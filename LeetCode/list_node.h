@@ -3,6 +3,7 @@
  */
 #include <vector>
 #include <sstream>
+#include <unordered_set>
  
 struct ListNode {
     int val;
@@ -29,6 +30,7 @@ std::string to_string(ListNode* head) {
 class LinkedList {
   private:
     ListNode* head;
+    std::unordered_set<ListNode*> cache_;
   public:
     LinkedList() : head(nullptr) {}
     
@@ -39,6 +41,7 @@ class LinkedList {
       ListNode* curr = head;
 
       for (size_t i = 1; i < nums.size(); ++i) {
+        cache_.insert(curr);
         curr->next = new ListNode(nums[i]);
         curr = curr->next;
       }
@@ -69,6 +72,22 @@ class LinkedList {
     const ListNode* getHead() const { return head; }
     ListNode* getHead() { return head; }
 
+    ListNode* getTail() {
+      ListNode* cur = head;
+      while (cur->next) {
+        cur = cur->next;
+      }
+      return cur;
+    }
+
+    ListNode* getNode(int pos) {
+      ListNode* cur = head;
+      while (pos-- && cur) {
+        cur = cur->next;
+      }
+      return cur;
+    }
+
     // for: 一些返回值是头结点的题目, 避免double free, 比如lc19
     void setHead(ListNode* _head) { head = _head; }
 
@@ -92,10 +111,10 @@ class LinkedList {
 
   private:
     void freeLinkedList() {
-      while (head != nullptr) {
-        ListNode* tmp = head;
-        head = head->next;
-        delete tmp;
+      for (auto it : cache_) {
+        ListNode** node = &it;
+        delete (*node);
+        *node = nullptr;
       }
     }
 };
