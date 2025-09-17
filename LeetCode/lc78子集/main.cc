@@ -8,7 +8,7 @@ void dfs(int i, int n, const std::vector<int>& nums, std::vector<int>& path, std
   if (i == n) return;  // 可以不加这行判断, for循环中限制了j < n, 不会无限递归下去
   for (int j = i; j < n; ++j) {
     path.push_back(nums[j]);
-    dfs(j + 1, n, nums, path, ans);
+    dfs(j + 1, n, nums, path, ans);  // 注意这里是从j+1开始，不是i+1；从j+1开始表示j不能重复
     path.pop_back();
   }
 }

@@ -2,6 +2,7 @@
 #include "../vector_print.h"
 using namespace std;
 
+// onPath记录数字有没有被选过
 void dfs(int i, const vector<int>& nums, vector<bool>& onPath, vector<int>& path,
          vector<vector<int>>& ans) {
   if (i == nums.size()) {

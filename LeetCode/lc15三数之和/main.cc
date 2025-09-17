@@ -2,6 +2,8 @@
 
 #include <iostream>
 using namespace std;
+
+// 题目要求{i, j, k}不重复，因此需要对i和j去重，i和j去重后，k就不能重复了
 vector<vector<int>> threeSum(vector<int>& nums) {
   sort(nums.begin(), nums.end());
   vector<vector<int>> ans;

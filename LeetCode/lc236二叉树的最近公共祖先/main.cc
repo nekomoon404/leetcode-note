@@ -1,6 +1,7 @@
 #include "../tree_node.h"
 #include <iostream>
 
+// 函数返回值表示最近公共祖先的候选项
 TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
   // 递归终止条件: 如果找到p或者q或者当前节点为空，则返回当前节点
   if (root == p || root == q || root == nullptr) return root;
